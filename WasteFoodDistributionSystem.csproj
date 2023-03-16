@@ -228,6 +228,8 @@
     <Content Include="Views\Employee\Login.cshtml" />
     <Content Include="Views\Shared\_Layout_Emp.cshtml" />
     <Content Include="Views\Employee\History.cshtml" />
+    <Content Include="Views\Employee\Setting.cshtml" />
+    <Content Include="Views\Employee\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
