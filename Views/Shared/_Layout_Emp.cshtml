@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+
+    <nav class="d-flex align-items-center justify-content-between mx-5">
+        <p class="logo">ZERO HUNGER</p>
+        <a class="link-primary text-decoration-none" href="/Employee/Profile">
+            <img class="nav-profile-pic" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa0mY04NeynM9jLwuxyuvaqyjfwHeBJkPsEwxUO-junn3ptTn8MyFPeTVpa5sppoAu758&usqp=CAU" alt="Profile" />
+            Azran Hossain
+        </a>
+    </nav>
+    <main class="d-flex">
+        <nav class="side-nav">
+            <a class="nav-active" href="#">Serve</a>
+            <a href="#">Histroy</a>
+            <a href="#">Setting</a>
+            <a href="/Employee/Logout">Logout</a>
+        </nav>
+        <section class="ds-content">
+            @RenderBody()
+        </section>
+    </main>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

@@ -1,1 +1,64 @@
-﻿<h1>EMP Home</h1>
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Emp.cshtml";
+}
+
+<div>
+    <section>
+        <h4 class="fw-semibold m-3">Food Distribution Records</h4>
+        <div class="d-flex justify-content-between mx-5">
+            <div class="card record">
+                <h5 class="fw-bold">40</h5>
+                <p>People Reached</p>
+            </div>
+            <div class="card record">
+                <h5 class="fw-bold">10</h5>
+                <p>Total Pending</p>
+            </div>
+            <div class="card record">
+                <h5 class="fw-bold">200</h5>
+                <p>Total Dispatch</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h5 class="fw-semibold my-5 m-3">Food Distribution Requests</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Resturant Name</th>
+                    <th>Preservation Houre</th>
+                    <th>Created At</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#894</td>
+                    <td><a href="#" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
+                    <td>5 H</td>
+                    <td>12:10pm</td>
+                    <td>Good</td>
+                    <td><a class="btn btn-outline-info" href="#">Complete</a></td>
+                </tr>
+                <tr>
+                    <td>#894</td>
+                    <td><a href="#" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
+                    <td>5 H</td>
+                    <td>12:10pm</td>
+                    <td>Good</td>
+                    <td><a class="btn btn-outline-info" href="#">Complete</a></td>
+                </tr>
+                <tr>
+                    <td>#894</td>
+                    <td><a href="#" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
+                    <td>5 H</td>
+                    <td>12:10pm</td>
+                    <td>Good</td>
+                    <td><a class="btn btn-outline-info" href="#">Complete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
