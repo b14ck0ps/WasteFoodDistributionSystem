@@ -7,19 +7,25 @@ using WasteFoodDistributionSystem.Models.ViewModel;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
+    [ValidEmployee]
     public class EmployeeController : Controller
     {
         // GET
-        [ValidEmployee]
         public ActionResult Index() => View();
+
+        [AllowAnonymous]
+        [PreventAuthenticatedAccess]
         public ActionResult Registration() => View();
+        [AllowAnonymous]
+        [PreventAuthenticatedAccess]
         public ActionResult Login() => View();
         public ActionResult Logout()
         {
             Session["user"] = null;
             return RedirectToAction("Index", "Home");
         }
-
+        [AllowAnonymous]
+        [PreventAuthenticatedAccess]
         [HttpPost]
         public ActionResult Registration(Employee employee)
         {
@@ -35,7 +41,8 @@ namespace WasteFoodDistributionSystem.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [AllowAnonymous]
+        [PreventAuthenticatedAccess]
         [HttpPost]
         public ActionResult Login(LoginFormModel loginForm)
         {
