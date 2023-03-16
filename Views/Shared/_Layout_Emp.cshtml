@@ -20,9 +20,11 @@
     </nav>
     <main class="d-flex">
         <nav class="side-nav">
-            <a class="nav-active" href="#">Serve</a>
-            <a href="#">Histroy</a>
-            <a href="#">Setting</a>
+            <a href="@Url.Action("Index", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "class=nav-active" : "")>Serve</a>
+
+            <a href="@Url.Action("History", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "History" ? "class=nav-active" : "")>History</a>
+
+            <a href="@Url.Action("Setting", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "Setting" ? "class=nav-active" : "")>Setting</a>
             <a href="/Employee/Logout">Logout</a>
         </nav>
         <section class="ds-content">
