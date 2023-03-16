@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@700&family=Poppins:wght@400;700&display=swap');
+.title {
+    font-family: 'Overpass Mono', monospace;
+    font-size: 70px;
+    color: blueviolet;
+    padding: 10px;
+}
+
+.desc-text {
+    width: 500px;
+    text-align: justify;
+    font-family: 'Poppins', sans-serif;
+}
+
+.about-section {
+    margin-left: 80px;
+}
