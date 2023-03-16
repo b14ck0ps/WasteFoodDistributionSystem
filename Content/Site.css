@@ -73,6 +73,7 @@ body {
     width: 15rem;
     padding: 15px;
     margin-top: 20px;
+    color: rgb(255, 61, 64);
 }
 
 .table td, th {
