@@ -12,6 +12,8 @@ namespace WasteFoodDistributionSystem.Controllers
     {
         // GET
         public ActionResult Index() => View();
+        public ActionResult History() => View();
+
 
         [AllowAnonymous]
         [PreventAuthenticatedAccess]

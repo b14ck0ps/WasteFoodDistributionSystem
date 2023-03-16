@@ -227,6 +227,7 @@
     <Content Include="Views\Employee\Registration.cshtml" />
     <Content Include="Views\Employee\Login.cshtml" />
     <Content Include="Views\Shared\_Layout_Emp.cshtml" />
+    <Content Include="Views\Employee\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
