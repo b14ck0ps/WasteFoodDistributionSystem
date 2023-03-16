@@ -22,7 +22,7 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Logout()
         {
             Session["user"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Employee");
         }
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
