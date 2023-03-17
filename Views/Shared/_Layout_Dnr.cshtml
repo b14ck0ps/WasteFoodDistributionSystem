@@ -15,7 +15,7 @@
     <nav class="d-flex align-items-center justify-content-between mx-5">
         <p class="logo">ZERO HUNGER</p>
         <a class="link-primary text-decoration-none" href="/Restaurant/DonorProfile">
-            <img class="nav-profile-pic rounded" src="https://salomiindiannoho.com/images/about/about-img.png" alt="Profile" />
+            <i class="bi bi-building-gear"></i>
             @Session["Name"]
         </a>
     </nav>
@@ -23,9 +23,9 @@
         <nav class="side-nav">
             <a href="@Url.Action("Index", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && (ViewContext.RouteData.Values["Action"].ToString() == "Index" || ViewContext.RouteData.Values["Action"].ToString() == "EditDonation" || ViewContext.RouteData.Values["Action"].ToString() == "AddDonation") ? "class=nav-active" : "")><i class="bi bi-view-list w-25"></i>Donate</a>
 
-            <a href="@Url.Action("History", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && ViewContext.RouteData.Values["Action"].ToString() == "History" ? "class=nav-active" : "")><i class="bi bi-clock-history w-25"></i>History</a>
+            <a href="@Url.Action("History", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && ViewContext.RouteData.Values["Action"].ToString() == "History" || ViewContext.RouteData.Values["Action"].ToString() == "DistributerProfile" ? "class=nav-active" : "")><i class="bi bi-clock-history w-25"></i>History</a>
 
-            <a href="@Url.Action("DonorProfile", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && ViewContext.RouteData.Values["Action"].ToString() == "DonorProfile" ? "class=nav-active" : "")><i class="bi bi-person-lines-fill w-25"></i>Profile</a>
+            <a href="@Url.Action("DonorProfile", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && ViewContext.RouteData.Values["Action"].ToString() == "DonorProfile" || ViewContext.RouteData.Values["Action"].ToString() == "Setting" ? "class=nav-active" : "")><i class="bi bi-person-lines-fill w-25"></i>Profile</a>
             <a href="/Restaurant/Logout"><i class="bi bi-box-arrow-left w-25"></i>Logout</a>
         </nav>
         <section class="ds-content">
