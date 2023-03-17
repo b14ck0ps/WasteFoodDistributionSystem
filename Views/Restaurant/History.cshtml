@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<WasteFoodDistributionSystem.Models.EF.CollectRequest>
 @{
     ViewBag.Title = "History";
     Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
@@ -18,26 +18,39 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 12; i++)
+                @foreach(var item in Model)
                 {
                     <tr>
-                        <td>#894</td>
-                        <td><a href="/Restaurant/DistributerProfile/1" class="text-decoration-none">Azran Hossain</a></td>
-                        <td>12:10pm</td>
-                        <td>Badda , Dhaka</td>
-                        <td>Compelte</td>
+                        <td>#@item.RequestId</td>
+                        <td><a href="/Restaurant/DistributerProfile/@item.EmployeeId" class="text-decoration-none">@item.Employee.Name</a></td>
+                        <td>@item.CreatedAt</td>
+                        <td>@item.Restaurant.Address</td>
+                        <td>@item.Status</td>
                     </tr>
                 }
             </tbody>
         </table>
-        <div class="d-flex flex-column justify-content-center align-items-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                </ul>
-            </nav>
-        </div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">Previous</a>
+                    </li>
+                }
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                    </li>
+                }
+                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
     </section>
 </div>

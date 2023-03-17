@@ -5,6 +5,7 @@ using WasteFoodDistributionSystem.Models.EF;
 using WasteFoodDistributionSystem.Models.ViewModel;
 using WasteFoodDistributionSystem.Models;
 using System;
+using System.Web.UI;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -26,7 +27,19 @@ namespace WasteFoodDistributionSystem.Controllers
         }
 
 
-        public ActionResult History() => View();
+        public ActionResult History(int? page)
+        {
+            const int pageSize = 8;
+            var restaurantId = (Session["user"] as Restaurant).RestaurantId;
+            var dbContext = new FoodDistributionDbContext();
+            var requests = dbContext.CollectRequests.Where(r => r.RestaurantId == restaurantId && r.Status != "Pending");
+            var count = requests.Count();
+            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            ViewBag.CurrentPage = page.GetValueOrDefault(1);
+            ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            return View(data);
+        }
+
         public ActionResult DonorProfile() => View(Session["user"] as Restaurant);
         public ActionResult Setting() => View(Session["user"] as Restaurant);
 
@@ -45,7 +58,15 @@ namespace WasteFoodDistributionSystem.Controllers
             ViewBag.Id = id;
             return View(model);
         }
-        public ActionResult DistributerProfile() => View();
+        public ActionResult DistributerProfile(int id)
+        {
+            var dbContext = new FoodDistributionDbContext();
+            var emp = dbContext.Employees.Find(id);
+            var dispatches = dbContext.CollectRequests.Where(d => d.EmployeeId == id && d.Status == "Complete").ToList();
+            ViewBag.Dispatches = dispatches.Count();
+            return View(emp);
+        }
+
 
 
         [AllowAnonymous]
