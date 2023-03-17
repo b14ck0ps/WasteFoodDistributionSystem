@@ -1,24 +1,25 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using WasteFoodDistributionSystem.Auth;
-using WasteFoodDistributionSystem.Models;
 using WasteFoodDistributionSystem.Models.EF;
 using WasteFoodDistributionSystem.Models.ViewModel;
+using WasteFoodDistributionSystem.Models;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
-    [ValidEmployee]
-    public class EmployeeController : Controller
+    [ValidDonor]
+    public class RestaurantController : Controller
     {
-        // GET
+        // GET: Restaurant
         public ActionResult Index() => View();
         public ActionResult History() => View();
-        public ActionResult UserProfile() => View();
-        public ActionResult Setting() => View();
         public ActionResult DonorProfile() => View();
+        public ActionResult Setting() => View();
 
-
-
+        public ActionResult AddDonation() => View();
+        public ActionResult EditDonation() => View();
+        public ActionResult DistributerProfile() => View();
+        
 
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
@@ -29,20 +30,19 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Logout()
         {
             Session["user"] = null;
-            return RedirectToAction("Login", "Employee");
+            return RedirectToAction("Index", "Home");
         }
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
         [HttpPost]
-        public ActionResult Registration(Employee employee)
+        public ActionResult Registration(Restaurant restaurant)
         {
             //check if the model is valid or not
-            if (!ModelState.IsValid) return View(employee);
-            employee.AssignedArea = "ADMIN";
+            if (!ModelState.IsValid) return View(restaurant);
             //save the employee in the database
             using (var db = new FoodDistributionDbContext())
             {
-                db.Employees.Add(employee);
+                db.Restaurants.Add(restaurant);
                 db.SaveChanges();
             }
 
@@ -58,7 +58,7 @@ namespace WasteFoodDistributionSystem.Controllers
             //check if the user is valid or not
             using (var db = new FoodDistributionDbContext())
             {
-                var user = db.Employees.FirstOrDefault(e => e.Email == loginForm.Email && e.Password == loginForm.Password);
+                var user = db.Restaurants.FirstOrDefault(e => e.Email == loginForm.Email && e.Password == loginForm.Password);
                 if (user == null)
                 {
                     TempData["error"] = "Invalid email or password";
@@ -70,5 +70,7 @@ namespace WasteFoodDistributionSystem.Controllers
             }
 
         }
+
+
     }
 }

@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
+}
+
+<div class="container">
+    <div class="main-body">
+        <div class="row flex-column align-items-center">
+            <div class="col-md-4 mb-3">
+                <div class="card" style="width:300px">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center justify-content-center">
+                            <img src="https://salomiindiannoho.com/images/about/about-img.png" alt="Admin" class="rounded" width="280">
+                            <div class="mt-3">
+                                <h4>Bhai Bhai Biriyani</h4>
+                                <p class="text-secondary mb-1">Donor</p>
+                                <p class="text-muted font-size-sm">Badda, Dhaka</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @**Profile INFO*@
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Restaurant Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                Bhai Bhai Biriyani
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                mahin@mail.com
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Phone</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                123248974
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Address</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                Somewhere In earth
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn btn-info " href="@Url.Action("Setting", "Restaurant")">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -128,9 +128,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Auth\PreventAuthenticatedAccess.cs" />
+    <Compile Include="Auth\ValidDonor.cs" />
     <Compile Include="Auth\ValidEmployee.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -144,6 +146,7 @@
     <Compile Include="Models\EF\FoodDistribution.cs" />
     <Compile Include="Models\EF\Restaurant.cs" />
     <Compile Include="Models\FoodDistributionDbContext.cs" />
+    <Compile Include="Models\ViewModel\DontaionFormModel.cs" />
     <Compile Include="Models\ViewModel\LoginFormModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -230,6 +233,17 @@
     <Content Include="Views\Employee\History.cshtml" />
     <Content Include="Views\Employee\Setting.cshtml" />
     <Content Include="Views\Employee\UserProfile.cshtml" />
+    <Content Include="Views\Restaurant\Registration.cshtml" />
+    <Content Include="Views\Restaurant\Login.cshtml" />
+    <Content Include="Views\Restaurant\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout_Dnr.cshtml" />
+    <Content Include="Views\Restaurant\History.cshtml" />
+    <Content Include="Views\Restaurant\DonorProfile.cshtml" />
+    <Content Include="Views\Restaurant\Setting.cshtml" />
+    <Content Include="Views\Restaurant\AddDonation.cshtml" />
+    <Content Include="Views\Restaurant\EditDonation.cshtml" />
+    <Content Include="Views\Restaurant\DistributerProfile.cshtml" />
+    <Content Include="Views\Employee\DonorProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
