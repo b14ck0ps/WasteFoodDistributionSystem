@@ -140,13 +140,21 @@
     <Compile Include="Migrations\202303160842308_init.designer.cs">
       <DependentUpon>202303160842308_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303171349199_name_image.cs" />
+    <Compile Include="Migrations\202303171349199_name_image.designer.cs">
+      <DependentUpon>202303171349199_name_image.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303171439014_amount_clmn.cs" />
+    <Compile Include="Migrations\202303171439014_amount_clmn.designer.cs">
+      <DependentUpon>202303171439014_amount_clmn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EF\CollectRequest.cs" />
     <Compile Include="Models\EF\Employee.cs" />
     <Compile Include="Models\EF\FoodDistribution.cs" />
     <Compile Include="Models\EF\Restaurant.cs" />
     <Compile Include="Models\FoodDistributionDbContext.cs" />
-    <Compile Include="Models\ViewModel\DontaionFormModel.cs" />
+    <Compile Include="Models\ViewModel\DonationModel.cs" />
     <Compile Include="Models\ViewModel\LoginFormModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -240,10 +248,10 @@
     <Content Include="Views\Restaurant\History.cshtml" />
     <Content Include="Views\Restaurant\DonorProfile.cshtml" />
     <Content Include="Views\Restaurant\Setting.cshtml" />
-    <Content Include="Views\Restaurant\AddDonation.cshtml" />
     <Content Include="Views\Restaurant\EditDonation.cshtml" />
     <Content Include="Views\Restaurant\DistributerProfile.cshtml" />
     <Content Include="Views\Employee\DonorProfile.cshtml" />
+    <Content Include="Views\Restaurant\AddDonation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -254,6 +262,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202303160842308_init.resx">
       <DependentUpon>202303160842308_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303171349199_name_image.resx">
+      <DependentUpon>202303171349199_name_image.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303171439014_amount_clmn.resx">
+      <DependentUpon>202303171439014_amount_clmn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -4,6 +4,7 @@ using WasteFoodDistributionSystem.Auth;
 using WasteFoodDistributionSystem.Models.EF;
 using WasteFoodDistributionSystem.Models.ViewModel;
 using WasteFoodDistributionSystem.Models;
+using System;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -11,7 +12,18 @@ namespace WasteFoodDistributionSystem.Controllers
     public class RestaurantController : Controller
     {
         // GET: Restaurant
-        public ActionResult Index() => View();
+        public ActionResult Index(int? page)
+        {
+            const int pageSize = 7;
+            var requests = new FoodDistributionDbContext().CollectRequests;
+            var count = requests.Count();
+            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            ViewBag.CurrentPage = page.GetValueOrDefault(1);
+            ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            return View(data);
+        }
+
+
         public ActionResult History() => View();
         public ActionResult DonorProfile() => View(Session["user"] as Restaurant);
         public ActionResult Setting() => View(Session["user"] as Restaurant);
@@ -104,7 +116,28 @@ namespace WasteFoodDistributionSystem.Controllers
             Session["Name"] = restaurant.Name;
             return RedirectToAction("DonorProfile");
         }
-
-
+        [HttpPost]
+        public ActionResult AddDonation(DonationModel model)
+        {
+            //check if model is valid 
+            if(!ModelState.IsValid) return View(model);
+            //else save data
+            using (var db = new FoodDistributionDbContext())
+            {
+                var newRequest = new CollectRequest
+                {
+                    Name = model.Name,
+                    Amount = model.Amount,
+                    Image = model.imgUrl,
+                    CreatedAt = DateTime.Now,
+                    MaximumPreservationTime = model.PreservTime,
+                    Status = "Pending",
+                    RestaurantId = (Session["user"] as Restaurant).RestaurantId
+                };
+                db.CollectRequests.Add(newRequest);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
