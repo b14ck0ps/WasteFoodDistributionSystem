@@ -30,11 +30,9 @@ The Food Distribution System is a project designed to help an NGO collect excess
 
 ## Usage
 
-1. Register accounts for restaurants, employees, and administrators.
+1. Register accounts for restaurants and employees.
 2. Log in as a restaurant and open a collect request.
-3. Log in as an administrator and view, accept, and assign requests to employees.
-4. Log in as an employee and view assigned requests. Mark them as completed after distributing the food.
-5. Administrators can track and generate reports on food distributions.
+3. Log in as an employee and view assigned requests. Mark them as completed after distributing the food.
 
 ## Schema
 ![Schema](https://i.ibb.co/w0qpKfH/fwms-db.png)
