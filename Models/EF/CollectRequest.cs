@@ -14,6 +14,11 @@ namespace WasteFoodDistributionSystem.Models.EF
 
         [Required]
         public int RestaurantId { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        public string Image { get; set; }
+        public int Amount { get; set; }
 
         public int? EmployeeId { get; set; }
 
