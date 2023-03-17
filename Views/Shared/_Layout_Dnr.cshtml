@@ -21,7 +21,7 @@
     </nav>
     <main class="d-flex">
         <nav class="side-nav">
-            <a href="@Url.Action("Index", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "class=nav-active" : "")><i class="bi bi-view-list w-25"></i>Donate</a>
+            <a href="@Url.Action("Index", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && (ViewContext.RouteData.Values["Action"].ToString() == "Index" || ViewContext.RouteData.Values["Action"].ToString() == "EditDonation" || ViewContext.RouteData.Values["Action"].ToString() == "AddDonation") ? "class=nav-active" : "")><i class="bi bi-view-list w-25"></i>Donate</a>
 
             <a href="@Url.Action("History", "Restaurant")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" && ViewContext.RouteData.Values["Action"].ToString() == "History" ? "class=nav-active" : "")><i class="bi bi-clock-history w-25"></i>History</a>
 

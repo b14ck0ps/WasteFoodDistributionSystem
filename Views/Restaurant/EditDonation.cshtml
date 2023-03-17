@@ -1,28 +1,20 @@
-﻿@model WasteFoodDistributionSystem.Models.ViewModel.DontaionFormModel
+﻿@model WasteFoodDistributionSystem.Models.ViewModel.DonationModel
 
 @{
     ViewBag.Title = "EditDonation";
     Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
 }
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>Donation #2342</h4>
-    <img class="rounded" src="https://i.pinimg.com/736x/a5/ac/70/a5ac709033b47cf709359b960a73f59d.jpg" alt="Food" width="250" />
+    <h2>Edit Donation</h2>
+    <h6>#@ViewBag.Id</h6>
+    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group mt-3">
-        <label>Image</label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { type = "File", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
     <div class="form-group">
-        <label>Food Name</label>
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -30,24 +22,32 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.imgUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.imgUrl, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.imgUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PreservTime, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PreservTime, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PreservTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { type = "number", @class = "form-control" } })
+            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        <label>Preservation Time (H)</label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PreservationTime, new { htmlAttributes = new { type = "number", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PreservationTime, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group mt-2 mb-2">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Update" class="btn btn-outline-info" />
+            <input type="submit" value="Save" class=" my-3 btn btn-outline-info" />
         </div>
     </div>
 </div>

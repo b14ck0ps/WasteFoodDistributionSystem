@@ -31,7 +31,20 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Setting() => View(Session["user"] as Restaurant);
 
         public ActionResult AddDonation() => View();
-        public ActionResult EditDonation() => View();
+        public ActionResult EditDonation(int id)
+        {
+            var dbContext = new FoodDistributionDbContext();
+            var request = dbContext.CollectRequests.Find(id);
+            var model = new DonationModel
+            {
+                Name = request.Name,
+                Amount = request.Amount,
+                PreservTime = request.MaximumPreservationTime,
+                imgUrl = request.Image
+            };
+            ViewBag.Id = id;
+            return View(model);
+        }
         public ActionResult DistributerProfile() => View();
 
 
@@ -122,7 +135,7 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult AddDonation(DonationModel model)
         {
             //check if model is valid 
-            if(!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) return View(model);
             //else save data
             using (var db = new FoodDistributionDbContext())
             {
@@ -137,6 +150,23 @@ namespace WasteFoodDistributionSystem.Controllers
                     RestaurantId = (Session["user"] as Restaurant).RestaurantId
                 };
                 db.CollectRequests.Add(newRequest);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public ActionResult EditDonation(DonationModel model, int id)
+        {
+            //check if model is valid 
+            if (!ModelState.IsValid) return View(model);
+            //else save data
+            using (var db = new FoodDistributionDbContext())
+            {
+                var request = db.CollectRequests.Find(id);
+                request.Name = model.Name;
+                request.Amount = model.Amount;
+                request.Image = model.imgUrl;
+                request.MaximumPreservationTime = model.PreservTime;
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
