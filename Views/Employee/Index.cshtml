@@ -49,31 +49,28 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>#894</td>
-                    <td><a href="#" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
-                    <td>5 H</td>
-                    <td>12:10pm</td>
-                    <td>Good</td>
-                    <td><a class="btn btn-outline-info" href="#">Complete</a></td>
-                </tr>
-                <tr>
-                    <td>#894</td>
-                    <td><a href="#" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
-                    <td>5 H</td>
-                    <td>12:10pm</td>
-                    <td>Good</td>
-                    <td><a class="btn btn-outline-info" href="#">Complete</a></td>
-                </tr>
-                <tr>
-                    <td>#894</td>
-                    <td><a href="#" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
-                    <td>5 H</td>
-                    <td>12:10pm</td>
-                    <td>Good</td>
-                    <td><a class="btn btn-outline-info" href="#">Complete</a></td>
-                </tr>
+                @for (int i = 0; i < 5; i++)
+                {
+
+                    <tr>
+                        <td>#@(894+i)</td>
+                        <td><a href="/Employee/DonorProfile/@i" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
+                        <td>5 H</td>
+                        <td>12:10pm</td>
+                        <td>Good</td>
+                        <td><a class="btn btn-outline-info" href="#">Complete</a></td>
+                    </tr>
+                }
             </tbody>
         </table>
     </section>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+            </ul>
+        </nav>
+    </div>
 </div>
