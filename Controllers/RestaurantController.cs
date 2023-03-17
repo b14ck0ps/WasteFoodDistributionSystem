@@ -14,8 +14,10 @@ namespace WasteFoodDistributionSystem.Controllers
         // GET: Restaurant
         public ActionResult Index(int? page)
         {
-            const int pageSize = 7;
-            var requests = new FoodDistributionDbContext().CollectRequests;
+            const int pageSize = 8;
+            var restaurantId = (Session["user"] as Restaurant).RestaurantId;
+            var dbContext = new FoodDistributionDbContext();
+            var requests = dbContext.CollectRequests.Where(r => r.RestaurantId == restaurantId);
             var count = requests.Count();
             var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
