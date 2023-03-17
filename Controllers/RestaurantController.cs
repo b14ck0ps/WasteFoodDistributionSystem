@@ -13,13 +13,13 @@ namespace WasteFoodDistributionSystem.Controllers
         // GET: Restaurant
         public ActionResult Index() => View();
         public ActionResult History() => View();
-        public ActionResult DonorProfile() => View();
-        public ActionResult Setting() => View();
+        public ActionResult DonorProfile() => View(Session["user"] as Restaurant);
+        public ActionResult Setting() => View(Session["user"] as Restaurant);
 
         public ActionResult AddDonation() => View();
         public ActionResult EditDonation() => View();
         public ActionResult DistributerProfile() => View();
-        
+
 
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
@@ -66,9 +66,43 @@ namespace WasteFoodDistributionSystem.Controllers
                 }
                 //set the session
                 Session["user"] = user;
+                Session["Name"] = user.Name;
                 return RedirectToAction("Index");
             }
 
+        }
+        [HttpPost]
+        public ActionResult Setting(Restaurant restaurant)
+        {
+            string new_password = Request.Form["new_password"];
+            using (var db = new FoodDistributionDbContext())
+            {
+                var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email && e.Password == restaurant.Password);
+                if (user == null)
+                {
+                    ModelState.AddModelError("Password", "Invalid password");
+                    return View(restaurant);
+                }
+            }
+            if (!ModelState.IsValid) return View(restaurant);
+            if (new_password != null && new_password != "")
+            {
+                restaurant.Password = new_password;
+            }
+            //save the employee in the database
+            using (var db = new FoodDistributionDbContext())
+            {
+                var user = db.Restaurants.Find(restaurant.RestaurantId);
+                user.Name = restaurant.Name;
+                user.Email = restaurant.Email;
+                user.Password = restaurant.Password;
+                user.Address = restaurant.Address;
+                user.ContactNumber = restaurant.ContactNumber;
+                db.SaveChanges();
+            }
+            Session["user"] = restaurant;
+            Session["Name"] = restaurant.Name;
+            return RedirectToAction("DonorProfile");
         }
 
 
