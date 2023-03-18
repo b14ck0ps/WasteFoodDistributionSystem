@@ -21,13 +21,13 @@ namespace WasteFoodDistributionSystem.Controllers
             var empId = (Session["user"] as Employee).EmployeeId;
             var dbContext = new FoodDistributionDbContext();
             var requests = dbContext.CollectRequests
-                                .Where(r => r.Status != "Complete")
+                                .Where(r => r.Status == "Pending")
                                 .OrderByDescending(r => r.RequestId)
                                 .Skip((page.GetValueOrDefault(1) - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToList();
             var count = dbContext.CollectRequests
-                            .Where(r => r.Status != "Complete")
+                            .Where(r => r.Status != "Pending")
                             .Count();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
             ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
