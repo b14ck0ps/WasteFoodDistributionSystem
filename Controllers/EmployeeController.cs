@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Drawing.Printing;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI;
 using WasteFoodDistributionSystem.Auth;
 using WasteFoodDistributionSystem.Models;
 using WasteFoodDistributionSystem.Models.EF;
@@ -11,7 +14,35 @@ namespace WasteFoodDistributionSystem.Controllers
     public class EmployeeController : Controller
     {
         // GET
-        public ActionResult Index() => View();
+        public ActionResult Index(int? page)
+        {
+            const int pageSize = 8;
+            var dbContext = new FoodDistributionDbContext();
+            var requests = dbContext.CollectRequests.Where(x => x.Status != "Processing");
+            var count = requests.Count();
+            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            ViewBag.CurrentPage = page.GetValueOrDefault(1);
+            ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            return View(data);
+        }
+        public ActionResult Serve(int? page)
+        {
+            const int pageSize = 7;
+            var dbContext = new FoodDistributionDbContext();
+            var empId = (Session["user"] as Employee).EmployeeId;
+            var requests = dbContext.CollectRequests.ToList();
+            var onlyProcessing = requests.Where(x => x.Status == "Processing" && x.EmployeeId == empId);
+            
+            var count = onlyProcessing.Count();
+            var data = onlyProcessing.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            ViewBag.CurrentPage = page.GetValueOrDefault(1);
+            ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            ViewBag.Pending = requests.Where(r => r.Status == "Pending").Count();
+            ViewBag.Processing = onlyProcessing.Count();
+            ViewBag.TotalDispatch = requests.Where(r => r.Status == "Complete" && r.EmployeeId == empId).Count();
+            return View(data);
+        }
         public ActionResult History() => View();
         public ActionResult UserProfile() => View(Session["user"] as Employee);
         public ActionResult Setting() => View(Session["user"] as Employee);
@@ -98,12 +129,26 @@ namespace WasteFoodDistributionSystem.Controllers
                 user.Password = emp.Password;
                 user.AssignedArea = emp.AssignedArea;
                 user.ContactNumber = emp.ContactNumber;
-                user.Image= emp.Image;
+                user.Image = emp.Image;
                 db.SaveChanges();
             }
             Session["user"] = emp;
             Session["Name"] = emp.Name;
             return RedirectToAction("UserProfile");
+        }
+        [HttpGet]
+        public ActionResult Collect(int id)
+        {
+            var dbContext = new FoodDistributionDbContext();
+            var req = dbContext.CollectRequests.Find(id);
+            if (req != null)
+            {
+                req.EmployeeId = (Session["user"] as Employee).EmployeeId;
+                req.Status = "Processing";
+                dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

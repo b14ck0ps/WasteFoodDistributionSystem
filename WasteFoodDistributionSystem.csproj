@@ -256,6 +256,7 @@
     <Content Include="Views\Restaurant\DistributerProfile.cshtml" />
     <Content Include="Views\Employee\DonorProfile.cshtml" />
     <Content Include="Views\Restaurant\AddDonation.cshtml" />
+    <Content Include="Views\Employee\Serve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

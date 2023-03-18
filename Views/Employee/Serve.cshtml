@@ -1,0 +1,96 @@
+﻿@model IEnumerable<WasteFoodDistributionSystem.Models.EF.CollectRequest>
+@{
+    Layout = "~/Views/Shared/_Layout_Emp.cshtml";
+}
+
+<div>
+    <section>
+        <h4 class="fw-semibold m-3">Food Distribution Records</h4>
+        <div class="d-flex justify-content-between mx-5">
+            <div class="card record">
+                <a href="/Employee/Index">
+                    <div class="d-flex">
+                        <i class="bi bi-box2-heart me-4" style="font-size: 3em;"></i>
+                        <div>
+                            <h5 class="fw-bold">@ViewBag.Pending</h5>
+                            <p>Pending Request</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card record">
+                <a href="/Employee/Serve">
+                    <div class="d-flex">
+                        <i class="bi bi-hourglass-bottom me-4" style="font-size: 3em;"></i>
+                        <div>
+                            <h5 class="fw-bold">@ViewBag.Processing</h5>
+                            <p>Total Processing</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card record">
+                <a href="/Employee/History">
+                    <div class="d-flex">
+                        <i class="bi bi-check-circle me-4" style="font-size: 3em;"></i>
+                        <div>
+                            <h5 class="fw-bold">@ViewBag.TotalDispatch</h5>
+                            <p>Total Dispatch</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h5 class="fw-semibold my-5 m-3">Food Distribution Requests</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Resturant Name</th>
+                    <th>Preservation Houre</th>
+                    <th>Created At</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model)
+                {
+
+                    <tr>
+                        <td>#@req.RequestId</td>
+                        <td><a href="/Employee/DonorProfile/@req.RestaurantId" class="text-decoration-none">@req.Restaurant.Name</a></td>
+                        <td>@req.MaximumPreservationTime</td>
+                        <td>@req.CreatedAt</td>
+                        <td>@req.Status</td>
+                        <td><a class="btn btn-outline-info" href="/Employee/Complete/@req.RequestId">Complete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>
+<nav>
+    <ul class="pagination justify-content-center">
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Serve", new { page = ViewBag.CurrentPage - 1 })">Previous</a>
+            </li>
+        }
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Serve", new { page = i })">@i</a>
+            </li>
+        }
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Serve", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+            </li>
+        }
+    </ul>
+</nav>

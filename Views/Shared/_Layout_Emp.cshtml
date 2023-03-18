@@ -21,11 +21,12 @@
     </nav>
     <main class="d-flex">
         <nav class="side-nav">
-            <a href="@Url.Action("Index", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "class=nav-active" : "")><i class="bi bi-view-list w-25"></i>Serve</a>
+            <a href="@Url.Action("Index", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "class=nav-active" : "")><i class="bi bi-basket-fill w-25"></i>Request</a>
+            <a href="@Url.Action("Serve", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "Serve" ? "class=nav-active" : "")><i class="bi bi-view-list w-25"></i>Serve</a>
 
             <a href="@Url.Action("History", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "History" ? "class=nav-active" : "")><i class="bi bi-clock-history w-25"></i>History</a>
 
-            <a href="@Url.Action("UserProfile", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "UserProfile" ||ViewContext.RouteData.Values["Action"].ToString() == "Setting" ? "class=nav-active" : "")><i class="bi bi-person-lines-fill w-25"></i>Profile</a>
+            <a href="@Url.Action("UserProfile", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "UserProfile" || ViewContext.RouteData.Values["Action"].ToString() == "Setting" ? "class=nav-active" : "")><i class="bi bi-person-lines-fill w-25"></i>Profile</a>
             <a href="/Employee/Logout"><i class="bi bi-box-arrow-left w-25"></i>Logout</a>
         </nav>
         <section class="ds-content">
