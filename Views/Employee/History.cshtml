@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Donation</th>
                     <th>Donor</th>
                     <th>Distributed At</th>
                     <th>Recipient(s)</th>
@@ -22,6 +23,7 @@
                 {
                     <tr>
                         <td>#@his.DistributionId</td>
+                        <td><a class="text-decoration-none" href="/Employee/FoodDetails/@his.CollectRequest.RequestId">@his.CollectRequest.Name</a></td>
                         <td><a href="/Employee/DonorProfile/@his.CollectRequest.RestaurantId" class="text-decoration-none">@his.CollectRequest.Restaurant.Name</a></td>
                         <td>@his.DistributedAt</td>
                         <td>@his.RecipientCount</td>
