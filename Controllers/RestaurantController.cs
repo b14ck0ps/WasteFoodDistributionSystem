@@ -17,13 +17,21 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             const int pageSize = 8;
             var restaurantId = (Session["user"] as Restaurant).RestaurantId;
-            var dbContext = new FoodDistributionDbContext();
-            var requests = dbContext.CollectRequests.Where(r => r.RestaurantId == restaurantId && r.Status != "Complete");
-            var count = requests.Count();
-            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
-            ViewBag.CurrentPage = page.GetValueOrDefault(1);
-            ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            return View(data);
+            using (var dbContext = new FoodDistributionDbContext())
+            {
+                var requests = dbContext.CollectRequests
+                                    .Where(r => r.RestaurantId == restaurantId && r.Status != "Complete")
+                                    .OrderByDescending(r => r.RequestId)
+                                    .Skip((page.GetValueOrDefault(1) - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+                var count = dbContext.CollectRequests
+                                .Where(r => r.RestaurantId == restaurantId && r.Status != "Complete")
+                                .Count();
+                ViewBag.CurrentPage = page.GetValueOrDefault(1);
+                ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+                return View(requests);
+            }
         }
 
 
@@ -32,12 +40,18 @@ namespace WasteFoodDistributionSystem.Controllers
             const int pageSize = 8;
             var restaurantId = (Session["user"] as Restaurant).RestaurantId;
             var dbContext = new FoodDistributionDbContext();
-            var requests = dbContext.FoodDistributions.Where(r => r.CollectRequest.RestaurantId == restaurantId && r.CollectRequest.Status == "Complete");
-            var count = requests.Count();
-            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            var requests = dbContext.FoodDistributions
+                                .Where(r => r.CollectRequest.RestaurantId == restaurantId && r.CollectRequest.Status == "Complete")
+                                .OrderByDescending(r => r.CollectRequest.RequestId)
+                                .Skip((page.GetValueOrDefault(1) - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+            var count = dbContext.FoodDistributions
+                            .Where(r => r.CollectRequest.RestaurantId == restaurantId && r.CollectRequest.Status == "Complete")
+                            .Count();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
             ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            return View(data);
+            return View(requests);
         }
 
         public ActionResult DonorProfile() => View(Session["user"] as Restaurant);
