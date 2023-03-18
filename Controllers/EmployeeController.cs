@@ -13,8 +13,8 @@ namespace WasteFoodDistributionSystem.Controllers
         // GET
         public ActionResult Index() => View();
         public ActionResult History() => View();
-        public ActionResult UserProfile() => View();
-        public ActionResult Setting() => View();
+        public ActionResult UserProfile() => View(Session["user"] as Employee);
+        public ActionResult Setting() => View(Session["user"] as Employee);
         public ActionResult DonorProfile() => View();
 
 
@@ -66,9 +66,44 @@ namespace WasteFoodDistributionSystem.Controllers
                 }
                 //set the session
                 Session["user"] = user;
+                Session["Name"] = user.Name;
                 return RedirectToAction("Index");
             }
 
+        }
+        [HttpPost]
+        public ActionResult Setting(Employee emp)
+        {
+            string new_password = Request.Form["new_password"];
+            using (var db = new FoodDistributionDbContext())
+            {
+                var user = db.Employees.FirstOrDefault(e => e.Email == emp.Email && e.Password == emp.Password);
+                if (user == null)
+                {
+                    ModelState.AddModelError("Password", "Invalid password");
+                    return View(emp);
+                }
+            }
+            if (!ModelState.IsValid) return View(emp);
+            if (new_password != null && new_password != "")
+            {
+                emp.Password = new_password;
+            }
+            //save the employee in the database
+            using (var db = new FoodDistributionDbContext())
+            {
+                var user = db.Employees.Find(emp.EmployeeId);
+                user.Name = emp.Name;
+                user.Email = emp.Email;
+                user.Password = emp.Password;
+                user.AssignedArea = emp.AssignedArea;
+                user.ContactNumber = emp.ContactNumber;
+                user.Image= emp.Image;
+                db.SaveChanges();
+            }
+            Session["user"] = emp;
+            Session["Name"] = emp.Name;
+            return RedirectToAction("UserProfile");
         }
     }
 }

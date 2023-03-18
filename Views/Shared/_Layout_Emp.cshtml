@@ -15,8 +15,8 @@
     <nav class="d-flex align-items-center justify-content-between mx-5">
         <p class="logo">ZERO HUNGER</p>
         <a class="link-primary text-decoration-none" href="/Employee/UserProfile">
-            <img class="nav-profile-pic rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Profile" />
-            Azran Hossain
+            <i class="bi bi-person-lines-fill me-2" style="font-size:1em"></i>
+            @Session["Name"]
         </a>
     </nav>
     <main class="d-flex">
@@ -25,7 +25,7 @@
 
             <a href="@Url.Action("History", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "History" ? "class=nav-active" : "")><i class="bi bi-clock-history w-25"></i>History</a>
 
-            <a href="@Url.Action("UserProfile", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "UserProfile" ? "class=nav-active" : "")><i class="bi bi-person-lines-fill w-25"></i>Profile</a>
+            <a href="@Url.Action("UserProfile", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "UserProfile" ||ViewContext.RouteData.Values["Action"].ToString() == "Setting" ? "class=nav-active" : "")><i class="bi bi-person-lines-fill w-25"></i>Profile</a>
             <a href="/Employee/Logout"><i class="bi bi-box-arrow-left w-25"></i>Logout</a>
         </nav>
         <section class="ds-content">

@@ -25,5 +25,6 @@ namespace WasteFoodDistributionSystem.Models.EF
 
         [Required, MaxLength(255)]
         public string Password { get; set; }
+        public string Image { get; set; }
     }
 }
