@@ -74,7 +74,20 @@ body {
     padding: 15px;
     margin-top: 20px;
     color: rgb(255, 61, 64);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    cursor: pointer;
+    display: inline-block;
 }
+
+    .record a {
+        color: rgb(255, 61, 64);
+        text-decoration: none;
+    }
+
+    .record:hover {
+        box-shadow: 0 0 20px 0 rgba(0,0,0,0.2);
+    }
 
 .table td, th {
     padding: 10px;
@@ -94,8 +107,12 @@ body {
     transition: 0.3s;
     cursor: pointer;
     display: inline-block;
-    text-align: center;
+    text-align: center
 }
+
+    .dnr-card a {
+        text-decoration: none;
+    }
 
 .add {
     border: 1px dashed rgb(255, 61, 64);

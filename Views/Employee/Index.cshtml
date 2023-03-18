@@ -1,76 +1,45 @@
-﻿@{
+﻿@model IEnumerable<WasteFoodDistributionSystem.Models.EF.CollectRequest>
+@{
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout_Emp.cshtml";
 }
 
-<div>
-    <section>
-        <h4 class="fw-semibold m-3">Food Distribution Records</h4>
-        <div class="d-flex justify-content-between mx-5">
-            <div class="card record">
-                <div class="d-flex">
-                    <i class="bi bi-box2-heart me-4" style="font-size: 3em;"></i>
-                    <div>
-                        <h5 class="fw-bold">40</h5>
-                        <p>People Reached</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card record">
-                <div class="d-flex">
-                    <i class="bi bi-hourglass-bottom me-4" style="font-size: 3em;"></i>
-                    <div>
-                        <h5 class="fw-bold">10</h5>
-                        <p>Total Pending</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card record">
-                <div class="d-flex">
-                    <i class="bi bi-check-circle me-4" style="font-size: 3em;"></i>
-                    <div>
-                        <h5 class="fw-bold">220</h5>
-                        <p>Total Dispatch</p>
-                    </div>
-                </div>
+<div class="d-flex flex-wrap">
+    @foreach (var req in Model)
+    {
+        <div>
+            <div class="card dnr-card">
+                <a href="/Employee/FoodDetails/@req.RequestId">
+                    <img class="rounded" src="@req.Image" alt="Food" width="150" />
+                    <h6 class="mt-3">@req.Name</h6>
+                    <p class="text-muted mb-1"><i class="bi bi-house-heart mx-2"></i>@req.Restaurant.Name</p>
+                    <span class="small text-muted"><i class="bi bi-clock-history"></i> @req.MaximumPreservationTime h</span>
+                    <span class="small text-muted"><i class="bi bi-basket ms-2"></i> @req.Amount</span>
+                </a>
+                <a href="/Employee/Collect/@req.RequestId" class="btn btn-outline-primary py-1 mt-1">Collect</a>
             </div>
         </div>
-    </section>
-    <section>
-        <h5 class="fw-semibold my-5 m-3">Food Distribution Requests</h5>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Resturant Name</th>
-                    <th>Preservation Houre</th>
-                    <th>Created At</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < 5; i++)
-                {
-
-                    <tr>
-                        <td>#@(894+i)</td>
-                        <td><a href="/Employee/DonorProfile/@i" class="text-decoration-none">Bhai Bhai Biriyani</a></td>
-                        <td>5 H</td>
-                        <td>12:10pm</td>
-                        <td>Good</td>
-                        <td><a class="btn btn-outline-info" href="#">Complete</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </section>
-    <div class="d-flex flex-column justify-content-center align-items-center">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-            </ul>
-        </nav>
-    </div>
+    }
 </div>
+<nav>
+    <ul class="pagination justify-content-center">
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">Previous</a>
+            </li>
+        }
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+            </li>
+        }
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
