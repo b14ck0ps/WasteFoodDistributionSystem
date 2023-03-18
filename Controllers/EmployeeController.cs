@@ -18,13 +18,21 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Index(int? page)
         {
             const int pageSize = 8;
+            var empId = (Session["user"] as Employee).EmployeeId;
             var dbContext = new FoodDistributionDbContext();
-            var requests = dbContext.CollectRequests.Where(x => x.Status != "Processing");
-            var count = requests.Count();
-            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            var requests = dbContext.CollectRequests
+                                .Where(r => r.Status == "Pending")
+                                .OrderByDescending(r => r.RequestId)
+                                .Skip((page.GetValueOrDefault(1) - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+            var count = dbContext.CollectRequests
+                            .Where(r => r.Status == "Pending")
+                            .Count();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
             ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            return View(data);
+            return View(requests);
+
         }
         public ActionResult Serve(int? page)
         {
@@ -46,15 +54,21 @@ namespace WasteFoodDistributionSystem.Controllers
         }
         public ActionResult History(int? page)
         {
-            const int pageSize = 12;
+            const int pageSize = 8;
             var empId = (Session["user"] as Employee).EmployeeId;
             var dbContext = new FoodDistributionDbContext();
-            var requests = dbContext.FoodDistributions.Where(r => r.CollectRequest.EmployeeId == empId && r.CollectRequest.Status == "Complete");
-            var count = requests.Count();
-            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            var requests = dbContext.FoodDistributions
+                                .Where(r => r.CollectRequest.EmployeeId == empId && r.CollectRequest.Status == "Complete")
+                                .OrderByDescending(r => r.CollectRequest.RequestId)
+                                .Skip((page.GetValueOrDefault(1) - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+            var count = dbContext.FoodDistributions
+                            .Where(r => r.CollectRequest.EmployeeId == empId && r.CollectRequest.Status == "Complete")
+                            .Count();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
             ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            return View(data);
+            return View(requests);
         }
         public ActionResult UserProfile() => View(Session["user"] as Employee);
         public ActionResult Setting() => View(Session["user"] as Employee);
