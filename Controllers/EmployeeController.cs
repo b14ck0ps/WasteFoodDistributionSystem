@@ -32,7 +32,7 @@ namespace WasteFoodDistributionSystem.Controllers
             var empId = (Session["user"] as Employee).EmployeeId;
             var requests = dbContext.CollectRequests.ToList();
             var onlyProcessing = requests.Where(x => x.Status == "Processing" && x.EmployeeId == empId);
-            
+
             var count = onlyProcessing.Count();
             var data = onlyProcessing.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
@@ -46,10 +46,7 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult History() => View();
         public ActionResult UserProfile() => View(Session["user"] as Employee);
         public ActionResult Setting() => View(Session["user"] as Employee);
-        public ActionResult DonorProfile() => View();
-
-
-
+        public ActionResult DonorProfile(int id) => View(new FoodDistributionDbContext().Restaurants.Find(id));
 
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
