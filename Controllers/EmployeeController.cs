@@ -27,7 +27,7 @@ namespace WasteFoodDistributionSystem.Controllers
                                 .Take(pageSize)
                                 .ToList();
             var count = dbContext.CollectRequests
-                            .Where(r => r.Status != "Pending")
+                            .Where(r => r.Status == "Pending")
                             .Count();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
             ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
