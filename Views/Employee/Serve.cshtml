@@ -48,28 +48,31 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Food Name</th>
+                    <th>Amount</th>
                     <th>Resturant Name</th>
-                    <th>Preservation Houre</th>
-                    <th>Created At</th>
-                    <th>Status</th>
+                    <th>Preservation Hour</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var req in Model)
                 {
-
                     <tr>
+
                         <td>#@req.RequestId</td>
+                        <td>@req.Name</td>
+                        <td>@req.Amount</td>
                         <td><a href="/Employee/DonorProfile/@req.RestaurantId" class="text-decoration-none">@req.Restaurant.Name</a></td>
                         <td>@req.MaximumPreservationTime</td>
-                        <td>@req.CreatedAt</td>
-                        <td>@req.Status</td>
-                        <td><a class="btn btn-outline-info" href="/Employee/Complete/@req.RequestId">Complete</a></td>
+                        <td>
+                            <a class="btn btn-outline-primary" href="/Employee/Complete/@req.RequestId">Distribute</a>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
+
     </section>
 </div>
 <nav>

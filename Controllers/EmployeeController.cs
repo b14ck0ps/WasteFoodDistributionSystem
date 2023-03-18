@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Migrations;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Web.Mvc;
@@ -43,10 +44,24 @@ namespace WasteFoodDistributionSystem.Controllers
             ViewBag.TotalDispatch = requests.Where(r => r.Status == "Complete" && r.EmployeeId == empId).Count();
             return View(data);
         }
-        public ActionResult History() => View();
+        public ActionResult History(int? page)
+        {
+            const int pageSize = 12;
+            var empId = (Session["user"] as Employee).EmployeeId;
+            var dbContext = new FoodDistributionDbContext();
+            var requests = dbContext.FoodDistributions.Where(r => r.CollectRequest.EmployeeId == empId && r.CollectRequest.Status == "Complete");
+            var count = requests.Count();
+            var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            ViewBag.CurrentPage = page.GetValueOrDefault(1);
+            ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            return View(data);
+        }
         public ActionResult UserProfile() => View(Session["user"] as Employee);
         public ActionResult Setting() => View(Session["user"] as Employee);
         public ActionResult DonorProfile(int id) => View(new FoodDistributionDbContext().Restaurants.Find(id));
+        public ActionResult Complete(int id) => View(new FoodDistributionDbContext().CollectRequests.Find(id));
+        public ActionResult FoodDetails(int id) => View(new FoodDistributionDbContext().CollectRequests.Find(id));
+
 
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
@@ -145,6 +160,28 @@ namespace WasteFoodDistributionSystem.Controllers
                 dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public ActionResult Complete(int id, FormCollection form)
+        {
+            var dbContext = new FoodDistributionDbContext();
+            string location = Request.Form.Get("Location");
+            int recipientCount = int.Parse(Request.Form.Get("recipientCount"));
+            var req = dbContext.CollectRequests.Find(id);
+            if (req != null)
+            {
+                var req_complete = new FoodDistribution
+                {
+                    RequestId = req.RequestId,
+                    Location = location,
+                    RecipientCount = recipientCount,
+                    DistributedAt = DateTime.Now,
+                };
+                req.Status = "Complete";
+                dbContext.FoodDistributions.Add(req_complete);
+            }
+            dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
     }

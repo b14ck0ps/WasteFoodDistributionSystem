@@ -1,0 +1,41 @@
+﻿@model WasteFoodDistributionSystem.Models.EF.CollectRequest
+
+@{
+    ViewBag.Title = "Complete";
+    Layout = "~/Views/Shared/_Layout_Emp.cshtml";
+}
+
+<div>
+    <img class="p-5" src="@Model.Image" alt="food_Picture" width="300" />
+    <div>
+        <a class="ms-5 btn btn-outline-primary" href="/Employee/Collect/@Model.RequestId">Collect</a>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Name:</label>
+        <label>@Model.Name</label>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Donated By:</label>
+        <a class="text-decoration-none" href="/Employee/DonorProfile/@Model.RestaurantId">@Model.Restaurant.Name</a>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Amount:</label>
+        <label>@Model.Amount</label>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Create At:</label>
+        <label>@Model.CreatedAt</label>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Perservation Time:</label>
+        <label>@Model.MaximumPreservationTime (H)</label>
+    </div>
+    <hr />
+    <a class="link-info mt-5" href="/Employee/Index">Back</a>
+</div>
+
