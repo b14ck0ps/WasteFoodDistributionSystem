@@ -259,6 +259,7 @@
     <Content Include="Views\Employee\Serve.cshtml" />
     <Content Include="Views\Employee\Complete.cshtml" />
     <Content Include="Views\Employee\FoodDetails.cshtml" />
+    <Content Include="Views\Restaurant\DonationDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

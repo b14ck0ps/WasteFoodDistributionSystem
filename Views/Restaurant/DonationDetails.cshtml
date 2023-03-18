@@ -1,0 +1,43 @@
+﻿@model WasteFoodDistributionSystem.Models.EF.FoodDistribution
+
+@{
+    ViewBag.Title = "Complete";
+    Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
+}
+
+<div>
+    <img class="p-5" src="@Model.CollectRequest.Image" alt="food_Picture" width="300" />
+    <hr />
+    <div class="ms-5">
+        <label>Name:</label>
+        <label>@Model.CollectRequest.Name</label>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Distributed By:</label>
+        <a class="text-decoration-none" href="/Restaurant/DistributerProfile/@Model.CollectRequest.EmployeeId">@Model.CollectRequest.Employee.Name</a>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Amount:</label>
+        <label>@Model.CollectRequest.Amount</label>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Create At:</label>
+        <label>@Model.CollectRequest.CreatedAt</label>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Distributed At:</label>
+        <label>@Model.DistributedAt </label>
+    </div>
+    <hr />
+    <div class="ms-5">
+        <label>Toatl Recipient(s):</label>
+        <label>@Model.RecipientCount</label>
+    </div>
+    <hr />
+    <a class="link-info mt-5" href="/Employee/Index">Back</a>
+</div>
+

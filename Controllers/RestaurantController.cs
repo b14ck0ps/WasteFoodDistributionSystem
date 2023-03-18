@@ -44,6 +44,7 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Setting() => View(Session["user"] as Restaurant);
 
         public ActionResult AddDonation() => View();
+        public ActionResult DonationDetails(int id) => View(new FoodDistributionDbContext().FoodDistributions.Where(x => x.CollectRequest.RequestId == id).FirstOrDefault());
         public ActionResult EditDonation(int id)
         {
             var dbContext = new FoodDistributionDbContext();

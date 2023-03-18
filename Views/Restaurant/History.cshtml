@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Donation</th>
                     <th>Distribute By</th>
                     <th>Distributed At</th>
                     <th>Location</th>
@@ -18,10 +19,11 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>#@item.DistributionId</td>
+                        <td><a class="text-decoration-none" href="/Restaurant/DonationDetails/@item.CollectRequest.RequestId">@item.CollectRequest.Name</a></td>
                         <td><a href="/Restaurant/DistributerProfile/@item.CollectRequest.EmployeeId" class="text-decoration-none">@item.CollectRequest.Employee.Name</a></td>
                         <td>@item.DistributedAt</td>
                         <td>@item.Location</td>
