@@ -18,7 +18,7 @@ namespace WasteFoodDistributionSystem.Controllers
             const int pageSize = 8;
             var restaurantId = (Session["user"] as Restaurant).RestaurantId;
             var dbContext = new FoodDistributionDbContext();
-            var requests = dbContext.CollectRequests.Where(r => r.RestaurantId == restaurantId);
+            var requests = dbContext.CollectRequests.Where(r => r.RestaurantId == restaurantId && r.Status != "Complete");
             var count = requests.Count();
             var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
@@ -32,7 +32,7 @@ namespace WasteFoodDistributionSystem.Controllers
             const int pageSize = 8;
             var restaurantId = (Session["user"] as Restaurant).RestaurantId;
             var dbContext = new FoodDistributionDbContext();
-            var requests = dbContext.CollectRequests.Where(r => r.RestaurantId == restaurantId && r.Status != "Pending");
+            var requests = dbContext.FoodDistributions.Where(r => r.CollectRequest.RestaurantId == restaurantId && r.CollectRequest.Status == "Complete");
             var count = requests.Count();
             var data = requests.OrderBy(x => x.RequestId).Skip((page.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);

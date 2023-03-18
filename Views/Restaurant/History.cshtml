@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WasteFoodDistributionSystem.Models.EF.CollectRequest>
+﻿@model IEnumerable<WasteFoodDistributionSystem.Models.EF.FoodDistribution>
 @{
     ViewBag.Title = "History";
     Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
@@ -14,18 +14,18 @@
                     <th>Distribute By</th>
                     <th>Distributed At</th>
                     <th>Location</th>
-                    <th>Status</th>
+                    <th>Recipient</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach(var item in Model)
                 {
                     <tr>
-                        <td>#@item.RequestId</td>
-                        <td><a href="/Restaurant/DistributerProfile/@item.EmployeeId" class="text-decoration-none">@item.Employee.Name</a></td>
-                        <td>@item.CreatedAt</td>
-                        <td>@item.Restaurant.Address</td>
-                        <td>@item.Status</td>
+                        <td>#@item.DistributionId</td>
+                        <td><a href="/Restaurant/DistributerProfile/@item.CollectRequest.EmployeeId" class="text-decoration-none">@item.CollectRequest.Employee.Name</a></td>
+                        <td>@item.DistributedAt</td>
+                        <td>@item.Location</td>
+                        <td>@item.RecipientCount</td>
                     </tr>
                 }
             </tbody>
