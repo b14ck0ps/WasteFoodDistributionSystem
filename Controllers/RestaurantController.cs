@@ -4,8 +4,8 @@ using WasteFoodDistributionSystem.Auth;
 using WasteFoodDistributionSystem.Models.EF;
 using WasteFoodDistributionSystem.Models.ViewModel;
 using WasteFoodDistributionSystem.Models;
+using WasteFoodDistributionSystem.Service;
 using System;
-using System.IO;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -68,7 +68,7 @@ namespace WasteFoodDistributionSystem.Controllers
                 Name = request.Name,
                 Amount = request.Amount,
                 PreservTime = request.MaximumPreservationTime,
-                imgUrl = request.Image
+                OldImgUrl = request.Image
             };
             ViewBag.Id = id;
             return View(model);
@@ -172,35 +172,24 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if model is valid 
             if (!ModelState.IsValid) return View(model);
-            var directoryPath = Server.MapPath("~/Images/DonationFood/");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            if (model.ProfilePicture != null && model.ProfilePicture.ContentLength > 0)
-            {
-                var fileExtension = Path.GetExtension(model.ProfilePicture.FileName);
-                var fileName = $"{model.Name}_{DateTime.Now:yyyyMMddHHmmss}{fileExtension}";
-                var path = Path.Combine(Server.MapPath("~/Images/DonationFood/"), fileName);
+            var fileName = "Default.jpg";
+            if (model.FoodPicture != null)
+                fileName = DefaultService.UploadImage(model.Name, model.FoodPicture, model.OldImgUrl, Server.MapPath("~/Images/DonationFood/"));
 
-                // Save the file to disk
-                model.ProfilePicture.SaveAs(path);
-
-                using (var db = new FoodDistributionDbContext())
+            using (var db = new FoodDistributionDbContext())
+            {
+                var newRequest = new CollectRequest
                 {
-                    var newRequest = new CollectRequest
-                    {
-                        Name = model.Name,
-                        Amount = model.Amount,
-                        Image = fileName,
-                        CreatedAt = DateTime.Now,
-                        MaximumPreservationTime = model.PreservTime,
-                        Status = "Pending",
-                        RestaurantId = (Session["user"] as Restaurant).RestaurantId
-                    };
-                    db.CollectRequests.Add(newRequest);
-                    db.SaveChanges();
-                }
+                    Name = model.Name,
+                    Amount = model.Amount,
+                    Image = fileName,
+                    CreatedAt = DateTime.Now,
+                    MaximumPreservationTime = model.PreservTime,
+                    Status = "Pending",
+                    RestaurantId = (Session["user"] as Restaurant).RestaurantId
+                };
+                db.CollectRequests.Add(newRequest);
+                db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
@@ -210,12 +199,15 @@ namespace WasteFoodDistributionSystem.Controllers
             //check if model is valid 
             if (!ModelState.IsValid) return View(model);
             //else save data
+            string ImageUrl = model.OldImgUrl;
+            if (model.FoodPicture != null)
+                ImageUrl = DefaultService.UploadImage(model.Name, model.FoodPicture, model.OldImgUrl, Server.MapPath("~/Images/DonationFood/"));
             using (var db = new FoodDistributionDbContext())
             {
                 var request = db.CollectRequests.Find(id);
                 request.Name = model.Name;
                 request.Amount = model.Amount;
-                request.Image = model.imgUrl;
+                request.Image = ImageUrl;
                 request.MaximumPreservationTime = model.PreservTime;
                 db.SaveChanges();
             }

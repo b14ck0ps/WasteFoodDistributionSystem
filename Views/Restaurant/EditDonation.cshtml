@@ -4,7 +4,7 @@
     ViewBag.Title = "EditDonation";
     Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditDonation", "Restaurant", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -12,15 +12,15 @@
         <h2>Edit Donation</h2>
         <h6>#@ViewBag.Id</h6>
         <hr />
-        <img src="@Model.imgUrl" alt="food_image" width="250" />
+        <img src="@Url.Content("~/Images/DonationFood/" + @Model.OldImgUrl)" alt="food_image" width="250" />
+        @Html.HiddenFor(model => model.OldImgUrl)
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.imgUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.imgUrl, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.imgUrl, "", new { @class = "text-danger" })
-            </div>
+
+        <div class="form-group col-md-10">
+            <label class="control-label">Food Picture</label>
+            <input class="form-control" type="file" name="FoodPicture" />
+            @Html.ValidationMessageFor(model => model.FoodPicture, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">

@@ -21,8 +21,9 @@
         </div>
 
         <div class="form-group col-md-10">
-            <label class="control-label">Profile Picture</label>
-            <input class="form-control" type="file" name="ProfilePicture" />
+            <label class="control-label">Food Picture</label>
+            <input class="form-control" type="file" name="FoodPicture" />
+            @Html.ValidationMessageFor(model => model.FoodPicture, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
