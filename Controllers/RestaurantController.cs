@@ -5,7 +5,7 @@ using WasteFoodDistributionSystem.Models.EF;
 using WasteFoodDistributionSystem.Models.ViewModel;
 using WasteFoodDistributionSystem.Models;
 using System;
-using System.Web.UI;
+using System.IO;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -172,21 +172,35 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if model is valid 
             if (!ModelState.IsValid) return View(model);
-            //else save data
-            using (var db = new FoodDistributionDbContext())
+            var directoryPath = Server.MapPath("~/Images/DonationFood/");
+            if (!Directory.Exists(directoryPath))
             {
-                var newRequest = new CollectRequest
+                Directory.CreateDirectory(directoryPath);
+            }
+            if (model.ProfilePicture != null && model.ProfilePicture.ContentLength > 0)
+            {
+                var fileExtension = Path.GetExtension(model.ProfilePicture.FileName);
+                var fileName = $"{model.Name}_{DateTime.Now:yyyyMMddHHmmss}{fileExtension}";
+                var path = Path.Combine(Server.MapPath("~/Images/DonationFood/"), fileName);
+
+                // Save the file to disk
+                model.ProfilePicture.SaveAs(path);
+
+                using (var db = new FoodDistributionDbContext())
                 {
-                    Name = model.Name,
-                    Amount = model.Amount,
-                    Image = model.imgUrl,
-                    CreatedAt = DateTime.Now,
-                    MaximumPreservationTime = model.PreservTime,
-                    Status = "Pending",
-                    RestaurantId = (Session["user"] as Restaurant).RestaurantId
-                };
-                db.CollectRequests.Add(newRequest);
-                db.SaveChanges();
+                    var newRequest = new CollectRequest
+                    {
+                        Name = model.Name,
+                        Amount = model.Amount,
+                        Image = fileName,
+                        CreatedAt = DateTime.Now,
+                        MaximumPreservationTime = model.PreservTime,
+                        Status = "Pending",
+                        RestaurantId = (Session["user"] as Restaurant).RestaurantId
+                    };
+                    db.CollectRequests.Add(newRequest);
+                    db.SaveChanges();
+                }
             }
             return RedirectToAction("Index");
         }

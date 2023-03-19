@@ -10,11 +10,12 @@ namespace WasteFoodDistributionSystem.Models.ViewModel
     {
         [Required]
         public string Name { get; set; }
-        [Required]
         public string imgUrl { get; set; }
         [Required]
         public int PreservTime { get; set; }
         [Required]
         public int Amount { get; set; }
+        [Required]
+        public HttpPostedFileBase ProfilePicture { get; set; }
     }
 }

@@ -4,10 +4,10 @@
     ViewBag.Title = "AddDonation";
     Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
 }
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("AddDonation", "Restaurant", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Add Donation</h4>
         <hr />
@@ -20,12 +20,9 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Image URL</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.imgUrl, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.imgUrl, "", new { @class = "text-danger" })
-            </div>
+        <div class="form-group col-md-10">
+            <label class="control-label">Profile Picture</label>
+            <input class="form-control" type="file" name="ProfilePicture" />
         </div>
 
         <div class="form-group">
