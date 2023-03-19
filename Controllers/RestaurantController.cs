@@ -6,6 +6,7 @@ using WasteFoodDistributionSystem.Models.ViewModel;
 using WasteFoodDistributionSystem.Models;
 using WasteFoodDistributionSystem.Service;
 using System;
+using System.Web;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -102,6 +103,12 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if the model is valid or not
             if (!ModelState.IsValid) return View(restaurant);
+            var profilePiture = Request.Files["ProfilePicture"];
+            if (profilePiture != null)
+            {
+                var ImgUrl = DefaultService.UploadImage(restaurant.Name, profilePiture, null, Server.MapPath("~/Images/RestaurentPicture/"));
+                restaurant.Image = ImgUrl;
+            }
             //save the employee in the database
             using (var db = new FoodDistributionDbContext())
             {

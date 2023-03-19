@@ -152,6 +152,10 @@
     <Compile Include="Migrations\202303181103522_c_img_emp.designer.cs">
       <DependentUpon>202303181103522_c_img_emp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303191924020_img_clm_rest.cs" />
+    <Compile Include="Migrations\202303191924020_img_clm_rest.designer.cs">
+      <DependentUpon>202303191924020_img_clm_rest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EF\CollectRequest.cs" />
     <Compile Include="Models\EF\Employee.cs" />
@@ -280,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303181103522_c_img_emp.resx">
       <DependentUpon>202303181103522_c_img_emp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303191924020_img_clm_rest.resx">
+      <DependentUpon>202303191924020_img_clm_rest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
