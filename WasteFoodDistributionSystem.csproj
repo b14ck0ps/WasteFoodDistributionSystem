@@ -163,6 +163,7 @@
     <Compile Include="Models\EF\Restaurant.cs" />
     <Compile Include="Models\FoodDistributionDbContext.cs" />
     <Compile Include="Models\ViewModel\DonationModel.cs" />
+    <Compile Include="Models\ViewModel\EmployeeSettingModel.cs" />
     <Compile Include="Models\ViewModel\LoginFormModel.cs" />
     <Compile Include="Models\ViewModel\RestaurantSettingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

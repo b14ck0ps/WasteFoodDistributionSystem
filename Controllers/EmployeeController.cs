@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Data.Entity.Migrations;
-using System.Drawing.Printing;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI;
 using WasteFoodDistributionSystem.Auth;
 using WasteFoodDistributionSystem.Models;
 using WasteFoodDistributionSystem.Models.EF;
 using WasteFoodDistributionSystem.Models.ViewModel;
+using WasteFoodDistributionSystem.Service;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -71,7 +69,21 @@ namespace WasteFoodDistributionSystem.Controllers
             return View(requests);
         }
         public ActionResult UserProfile() => View(Session["user"] as Employee);
-        public ActionResult Setting() => View(Session["user"] as Employee);
+        public ActionResult Setting()
+        {
+            var user = Session["user"] as Employee;
+            var model = new EmployeeSettingModel
+            {
+                EmployeeId = user.EmployeeId,
+                Name = user.Name,
+                Email = user.Email,
+                Password = user.Password,
+                ContactNumber = user.ContactNumber,
+                AssignedArea = user.AssignedArea,
+                Image = user.Image,
+            };
+            return View(model);
+        }
         public ActionResult DonorProfile(int id) => View(new FoodDistributionDbContext().Restaurants.Find(id));
         public ActionResult Complete(int id) => View(new FoodDistributionDbContext().CollectRequests.Find(id));
         public ActionResult FoodDetails(int id) => View(new FoodDistributionDbContext().CollectRequests.Find(id));
@@ -95,7 +107,12 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if the model is valid or not
             if (!ModelState.IsValid) return View(employee);
-            employee.AssignedArea = "ADMIN";
+            var profilePiture = Request.Files["ProfilePicture"];
+            if (profilePiture != null)
+            {
+                var ImgUrl = DefaultService.UploadImage(employee.Name, profilePiture, null, Server.MapPath("~/Images/EmployeePicture/"));
+                employee.Image = ImgUrl;
+            }
             //save the employee in the database
             using (var db = new FoodDistributionDbContext())
             {
@@ -129,22 +146,32 @@ namespace WasteFoodDistributionSystem.Controllers
 
         }
         [HttpPost]
-        public ActionResult Setting(Employee emp)
+        public ActionResult Setting(EmployeeSettingModel emp)
         {
-            string new_password = Request.Form["new_password"];
-            using (var db = new FoodDistributionDbContext())
-            {
-                var user = db.Employees.FirstOrDefault(e => e.Email == emp.Email && e.Password == emp.Password);
-                if (user == null)
-                {
-                    ModelState.AddModelError("Password", "Invalid password");
-                    return View(emp);
-                }
-            }
             if (!ModelState.IsValid) return View(emp);
-            if (new_password != null && new_password != "")
+            if (!string.IsNullOrEmpty(emp.NewPassword))
             {
-                emp.Password = new_password;
+                using (var db = new FoodDistributionDbContext())
+                {
+                    var user = db.Employees.FirstOrDefault(e => e.Email == emp.Email && e.Password == emp.Password);
+                    if (user == null)
+                    {
+                        ModelState.AddModelError("Password", "Invalid password");
+                        return View(emp);
+                    }
+                }
+                emp.Password = emp.NewPassword;
+            }
+            else
+            {
+                emp.Password = (Session["user"] as Employee).Password;
+            }
+            var profilePiture = emp.ImageFile;
+            var ImgUrl = emp.Image;
+            if (profilePiture != null)
+            {
+                ImgUrl = DefaultService.UploadImage(emp.Name, profilePiture, emp.Image, Server.MapPath("~/Images/EmployeePicture/"));
+                emp.Image = ImgUrl;
             }
             //save the employee in the database
             using (var db = new FoodDistributionDbContext())
@@ -157,9 +184,9 @@ namespace WasteFoodDistributionSystem.Controllers
                 user.ContactNumber = emp.ContactNumber;
                 user.Image = emp.Image;
                 db.SaveChanges();
+                Session["user"] = user;
+                Session["Name"] = emp.Name;
             }
-            Session["user"] = emp;
-            Session["Name"] = emp.Name;
             return RedirectToAction("UserProfile");
         }
         [HttpGet]
@@ -180,8 +207,8 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Complete(int id, FormCollection form)
         {
             var dbContext = new FoodDistributionDbContext();
-            string location = Request.Form.Get("Location");
-            int recipientCount = int.Parse(Request.Form.Get("recipientCount"));
+            string location = form.Get("Location");
+            int recipientCount = int.Parse(form.Get("recipientCount"));
             var req = dbContext.CollectRequests.Find(id);
             if (req != null)
             {

@@ -6,7 +6,7 @@
 
 <section class="mx-5">
     <div class="d-flex justify-content-between">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Registration", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div class=" m-auto p-5 border mt-2">
@@ -52,7 +52,10 @@
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
+                <div class="form-group col-10">
+                    <label class="control-label">Profile Picture</label>
+                    <input class="form-control" type="file" name="ProfilePicture" />
+                </div>
                 <div class="form-group mb-4">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Join" class="btn btn-outline-primary mt-3" />
