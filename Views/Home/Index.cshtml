@@ -1,9 +1,9 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "Zero Hunger";
 }
 <body>
-    <section class="d-flex align-items-center justify-content-between">
-        <div class="about-section">
+    <section class="d-md-flex align-items-center justify-content-between">
+        <div class="about-section me-5">
             <p class="fw-bold">Let's stop waste and feed the world.</p>
             <div class=" desc-text">
                 Welcome to the Food Distribution System, a project aimed at ending food waste and hunger in Dhaka city. We are an NGO dedicated to collecting excess food from restaurants and distributing it to those in need. Our system automates and tracks the entire workflow, from the restaurant opening a collection request to the distribution of food by our assigned employees. With our innovative solution, we strive to create a sustainable food distribution network that benefits both the community and the environment. Join us in our mission to ensure that no one goes hungry in Dhaka city.
@@ -13,8 +13,9 @@
                 <a href="/Employee/Registration" class="btn btn-outline-primary">Serve As Employee</a>
             </div>
         </div>
-        <div>
-            <img src="https://thumbs.dreamstime.com/b/reduce-food-waste-cartoon-vector-illustration-good-print-postcard-environmental-warning-sticker-129373112.jpg" alt="Poster" height="600px" />
+        <div class="chart flex-grow-1 p-5">
+            <canvas id="chart"></canvas>
         </div>
     </section>
-</body>
+    </body>
+@Html.Partial("~/Views/Charts/_DonatinoLineChart.cshtml")
