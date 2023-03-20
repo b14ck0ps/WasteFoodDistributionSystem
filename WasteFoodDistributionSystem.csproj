@@ -164,6 +164,7 @@
     <Compile Include="Models\FoodDistributionDbContext.cs" />
     <Compile Include="Models\ViewModel\DonationModel.cs" />
     <Compile Include="Models\ViewModel\LoginFormModel.cs" />
+    <Compile Include="Models\ViewModel\RestaurantSettingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DefaultService.cs" />
   </ItemGroup>

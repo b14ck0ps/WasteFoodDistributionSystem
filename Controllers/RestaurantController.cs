@@ -6,7 +6,6 @@ using WasteFoodDistributionSystem.Models.ViewModel;
 using WasteFoodDistributionSystem.Models;
 using WasteFoodDistributionSystem.Service;
 using System;
-using System.Web;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -56,7 +55,21 @@ namespace WasteFoodDistributionSystem.Controllers
         }
 
         public ActionResult DonorProfile() => View(Session["user"] as Restaurant);
-        public ActionResult Setting() => View(Session["user"] as Restaurant);
+        public ActionResult Setting()
+        {
+            var restaurant = Session["user"] as Restaurant;
+            var model = new RestaurantSettingModel
+            {
+                RestaurantId = restaurant.RestaurantId,
+                Name = restaurant.Name,
+                Email = restaurant.Email,
+                Password = restaurant.Password,
+                ContactNumber = restaurant.ContactNumber,
+                Address = restaurant.Address,
+                Image = restaurant.Image,
+            };
+            return View(model);
+        }
 
         public ActionResult AddDonation() => View();
         public ActionResult DonationDetails(int id) => View(new FoodDistributionDbContext().FoodDistributions.Where(x => x.CollectRequest.RequestId == id).FirstOrDefault());
@@ -142,22 +155,32 @@ namespace WasteFoodDistributionSystem.Controllers
 
         }
         [HttpPost]
-        public ActionResult Setting(Restaurant restaurant)
+        public ActionResult Setting(RestaurantSettingModel restaurant)
         {
-            string new_password = Request.Form["new_password"];
-            using (var db = new FoodDistributionDbContext())
-            {
-                var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email && e.Password == restaurant.Password);
-                if (user == null)
-                {
-                    ModelState.AddModelError("Password", "Invalid password");
-                    return View(restaurant);
-                }
-            }
             if (!ModelState.IsValid) return View(restaurant);
-            if (new_password != null && new_password != "")
+            if (!string.IsNullOrEmpty(restaurant.NewPassword))
             {
-                restaurant.Password = new_password;
+                using (var db = new FoodDistributionDbContext())
+                {
+                    var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email && e.Password == restaurant.Password);
+                    if (user == null)
+                    {
+                        ModelState.AddModelError("Password", "Invalid password");
+                        return View(restaurant);
+                    }
+                }
+                restaurant.Password = restaurant.NewPassword;
+            }
+            else
+            {
+                restaurant.Password = (Session["user"] as Restaurant).Password;
+            }
+            var profilePiture = restaurant.ImageFile;
+            var ImgUrl = restaurant.Image;
+            if (profilePiture != null)
+            {
+                ImgUrl = DefaultService.UploadImage(restaurant.Name, profilePiture, restaurant.Image, Server.MapPath("~/Images/RestaurentPicture/"));
+                restaurant.Image = ImgUrl;
             }
             //save the employee in the database
             using (var db = new FoodDistributionDbContext())
@@ -168,10 +191,11 @@ namespace WasteFoodDistributionSystem.Controllers
                 user.Password = restaurant.Password;
                 user.Address = restaurant.Address;
                 user.ContactNumber = restaurant.ContactNumber;
+                user.Image = restaurant.Image;
                 db.SaveChanges();
+                Session["user"] = user;
+                Session["Name"] = restaurant.Name;
             }
-            Session["user"] = restaurant;
-            Session["Name"] = restaurant.Name;
             return RedirectToAction("DonorProfile");
         }
         [HttpPost]
