@@ -97,7 +97,7 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Login() => View();
         public ActionResult Logout()
         {
-            Session["user"] = null;
+            Session.Abandon();
             return RedirectToAction("Login", "Employee");
         }
         [AllowAnonymous]
@@ -140,6 +140,7 @@ namespace WasteFoodDistributionSystem.Controllers
                 }
                 //set the session
                 Session["user"] = user;
+                Session["Role"] = "Emp";
                 Session["Name"] = user.Name;
                 return RedirectToAction("Index");
             }
