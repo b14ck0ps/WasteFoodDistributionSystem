@@ -4,8 +4,8 @@ using WasteFoodDistributionSystem.Auth;
 using WasteFoodDistributionSystem.Models.EF;
 using WasteFoodDistributionSystem.Models.ViewModel;
 using WasteFoodDistributionSystem.Models;
+using WasteFoodDistributionSystem.Service;
 using System;
-using System.Web.UI;
 
 namespace WasteFoodDistributionSystem.Controllers
 {
@@ -55,7 +55,21 @@ namespace WasteFoodDistributionSystem.Controllers
         }
 
         public ActionResult DonorProfile() => View(Session["user"] as Restaurant);
-        public ActionResult Setting() => View(Session["user"] as Restaurant);
+        public ActionResult Setting()
+        {
+            var restaurant = Session["user"] as Restaurant;
+            var model = new RestaurantSettingModel
+            {
+                RestaurantId = restaurant.RestaurantId,
+                Name = restaurant.Name,
+                Email = restaurant.Email,
+                Password = restaurant.Password,
+                ContactNumber = restaurant.ContactNumber,
+                Address = restaurant.Address,
+                Image = restaurant.Image,
+            };
+            return View(model);
+        }
 
         public ActionResult AddDonation() => View();
         public ActionResult DonationDetails(int id) => View(new FoodDistributionDbContext().FoodDistributions.Where(x => x.CollectRequest.RequestId == id).FirstOrDefault());
@@ -68,7 +82,7 @@ namespace WasteFoodDistributionSystem.Controllers
                 Name = request.Name,
                 Amount = request.Amount,
                 PreservTime = request.MaximumPreservationTime,
-                imgUrl = request.Image
+                OldImgUrl = request.Image
             };
             ViewBag.Id = id;
             return View(model);
@@ -102,6 +116,12 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if the model is valid or not
             if (!ModelState.IsValid) return View(restaurant);
+            var profilePiture = Request.Files["ProfilePicture"];
+            if (profilePiture != null)
+            {
+                var ImgUrl = DefaultService.UploadImage(restaurant.Name, profilePiture, null, Server.MapPath("~/Images/RestaurentPicture/"));
+                restaurant.Image = ImgUrl;
+            }
             //save the employee in the database
             using (var db = new FoodDistributionDbContext())
             {
@@ -135,22 +155,32 @@ namespace WasteFoodDistributionSystem.Controllers
 
         }
         [HttpPost]
-        public ActionResult Setting(Restaurant restaurant)
+        public ActionResult Setting(RestaurantSettingModel restaurant)
         {
-            string new_password = Request.Form["new_password"];
-            using (var db = new FoodDistributionDbContext())
-            {
-                var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email && e.Password == restaurant.Password);
-                if (user == null)
-                {
-                    ModelState.AddModelError("Password", "Invalid password");
-                    return View(restaurant);
-                }
-            }
             if (!ModelState.IsValid) return View(restaurant);
-            if (new_password != null && new_password != "")
+            if (!string.IsNullOrEmpty(restaurant.NewPassword))
             {
-                restaurant.Password = new_password;
+                using (var db = new FoodDistributionDbContext())
+                {
+                    var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email && e.Password == restaurant.Password);
+                    if (user == null)
+                    {
+                        ModelState.AddModelError("Password", "Invalid password");
+                        return View(restaurant);
+                    }
+                }
+                restaurant.Password = restaurant.NewPassword;
+            }
+            else
+            {
+                restaurant.Password = (Session["user"] as Restaurant).Password;
+            }
+            var profilePiture = restaurant.ImageFile;
+            var ImgUrl = restaurant.Image;
+            if (profilePiture != null)
+            {
+                ImgUrl = DefaultService.UploadImage(restaurant.Name, profilePiture, restaurant.Image, Server.MapPath("~/Images/RestaurentPicture/"));
+                restaurant.Image = ImgUrl;
             }
             //save the employee in the database
             using (var db = new FoodDistributionDbContext())
@@ -161,10 +191,11 @@ namespace WasteFoodDistributionSystem.Controllers
                 user.Password = restaurant.Password;
                 user.Address = restaurant.Address;
                 user.ContactNumber = restaurant.ContactNumber;
+                user.Image = restaurant.Image;
                 db.SaveChanges();
+                Session["user"] = user;
+                Session["Name"] = restaurant.Name;
             }
-            Session["user"] = restaurant;
-            Session["Name"] = restaurant.Name;
             return RedirectToAction("DonorProfile");
         }
         [HttpPost]
@@ -172,14 +203,17 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if model is valid 
             if (!ModelState.IsValid) return View(model);
-            //else save data
+            var fileName = "Default.jpg";
+            if (model.FoodPicture != null)
+                fileName = DefaultService.UploadImage(model.Name, model.FoodPicture, model.OldImgUrl, Server.MapPath("~/Images/DonationFood/"));
+
             using (var db = new FoodDistributionDbContext())
             {
                 var newRequest = new CollectRequest
                 {
                     Name = model.Name,
                     Amount = model.Amount,
-                    Image = model.imgUrl,
+                    Image = fileName,
                     CreatedAt = DateTime.Now,
                     MaximumPreservationTime = model.PreservTime,
                     Status = "Pending",
@@ -196,12 +230,15 @@ namespace WasteFoodDistributionSystem.Controllers
             //check if model is valid 
             if (!ModelState.IsValid) return View(model);
             //else save data
+            string ImageUrl = model.OldImgUrl;
+            if (model.FoodPicture != null)
+                ImageUrl = DefaultService.UploadImage(model.Name, model.FoodPicture, model.OldImgUrl, Server.MapPath("~/Images/DonationFood/"));
             using (var db = new FoodDistributionDbContext())
             {
                 var request = db.CollectRequests.Find(id);
                 request.Name = model.Name;
                 request.Amount = model.Amount;
-                request.Image = model.imgUrl;
+                request.Image = ImageUrl;
                 request.MaximumPreservationTime = model.PreservTime;
                 db.SaveChanges();
             }
