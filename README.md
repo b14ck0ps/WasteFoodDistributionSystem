@@ -4,10 +4,9 @@ The Food Distribution System is a project designed to help an NGO collect excess
 
 ## Features
 
-- Restaurant, employee, and administrator accounts with authentication and authorization
+- Restaurant and employee accounts with authentication and authorization
 - Dashboard for restaurants to open collect requests
-- Dashboard for administrators to view, accept, and assign requests to employees
-- Dashboard for employees to view their assigned requests and mark them as completed after distribution
+- Dashboard for employees to view requests, collect them and mark them as completed after distribution
 - Tracking and reporting of food distributions
 - Database to store and manage all data in the system
 
@@ -35,4 +34,4 @@ The Food Distribution System is a project designed to help an NGO collect excess
 3. Log in as an employee and view assigned requests. Mark them as completed after distributing the food.
 
 ## Schema
-![Schema](https://i.ibb.co/w0qpKfH/fwms-db.png)
+![Schema](https://i.imgur.com/LRDHsd0.png)
