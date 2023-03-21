@@ -109,6 +109,15 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if the model is valid or not
             if (!ModelState.IsValid) return View(restaurant);
+            using (var db = new FoodDistributionDbContext())
+            {
+                var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email);
+                if (user != null)
+                {
+                    ModelState.AddModelError("Email", "Email already exists");
+                    return View(restaurant);
+                }
+            }
             var profilePiture = Request.Files["ProfilePicture"];
             if (profilePiture != null)
             {
@@ -129,6 +138,18 @@ namespace WasteFoodDistributionSystem.Controllers
         public ActionResult Setting(RestaurantSettingModel restaurant)
         {
             if (!ModelState.IsValid) return View(restaurant);
+            if ((Session["user"] as Restaurant).Email != restaurant.Email)
+            {
+                using (var db = new FoodDistributionDbContext())
+                {
+                    var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email);
+                    if (user != null)
+                    {
+                        ModelState.AddModelError("Email", "Email already exists");
+                        return View(restaurant);
+                    }
+                }
+            }
             if (!string.IsNullOrEmpty(restaurant.NewPassword))
             {
                 using (var db = new FoodDistributionDbContext())
