@@ -5,6 +5,10 @@
 }
 
 <h4 class="fw-semibold m-3">Distribution History</h4>
+<div class="chart flex-grow-1 px-2 w-75 m-auto my-1">
+    <canvas id="chart"></canvas>
+</div>
+@Html.Partial("~/Views/Charts/_DonatinoLineChart.cshtml")
 <div>
     <section>
         <table class="table">

@@ -51,6 +51,11 @@ namespace WasteFoodDistributionSystem.Controllers
                             .Count();
             ViewBag.CurrentPage = page.GetValueOrDefault(1);
             ViewBag.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            //Chart Data
+            var dontaion = dbContext.CollectRequests.Where(r => r.RestaurantId == restaurantId && r.Status == "Complete").ToList();
+            ViewBag.Data = dontaion.Select(d => new { Date = d.CreatedAt.ToString("ddd hh:mm tt"), d.Amount }).ToArray();
+
             return View(requests);
         }
 

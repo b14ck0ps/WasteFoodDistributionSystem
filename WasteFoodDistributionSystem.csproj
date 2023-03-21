@@ -268,8 +268,9 @@
     <Content Include="Views\Employee\Complete.cshtml" />
     <Content Include="Views\Employee\FoodDetails.cshtml" />
     <Content Include="Views\Restaurant\DonationDetails.cshtml" />
-    <Content Include="Views\Charts\_DonatinoLineChart.cshtml" />
+    <Content Include="Views\Charts\_DonatinoBarChart.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Charts\_DonatinoLineChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
