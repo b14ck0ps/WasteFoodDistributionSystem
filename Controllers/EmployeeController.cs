@@ -109,6 +109,11 @@ namespace WasteFoodDistributionSystem.Controllers
                     return View(employee);
                 }
             }
+            if (employee.Password != Request.Form["Password_Confirmation"])
+            {
+                ModelState.AddModelError("Password", "Password does not match");
+                return View(employee);
+            }
             var profilePiture = Request.Files["ProfilePicture"];
             if (profilePiture != null)
             {

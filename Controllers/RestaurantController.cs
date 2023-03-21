@@ -109,6 +109,11 @@ namespace WasteFoodDistributionSystem.Controllers
         {
             //check if the model is valid or not
             if (!ModelState.IsValid) return View(restaurant);
+            if (restaurant.Password != Request.Form["Password_Confirmation"])
+            {
+                ModelState.AddModelError("Password", "Password does not match");
+                return View(restaurant);
+            }
             using (var db = new FoodDistributionDbContext())
             {
                 var user = db.Restaurants.FirstOrDefault(e => e.Email == restaurant.Email);
