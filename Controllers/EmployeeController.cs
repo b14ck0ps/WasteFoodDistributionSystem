@@ -92,14 +92,7 @@ namespace WasteFoodDistributionSystem.Controllers
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
         public ActionResult Registration() => View();
-        [AllowAnonymous]
-        [PreventAuthenticatedAccess]
-        public ActionResult Login() => View();
-        public ActionResult Logout()
-        {
-            Session.Abandon();
-            return RedirectToAction("Login", "Employee");
-        }
+
         [AllowAnonymous]
         [PreventAuthenticatedAccess]
         [HttpPost]
@@ -122,30 +115,7 @@ namespace WasteFoodDistributionSystem.Controllers
 
             return RedirectToAction("Index");
         }
-        [AllowAnonymous]
-        [PreventAuthenticatedAccess]
-        [HttpPost]
-        public ActionResult Login(LoginFormModel loginForm)
-        {
-            //check if the model is valid or not
-            if (!ModelState.IsValid) return View(loginForm);
-            //check if the user is valid or not
-            using (var db = new FoodDistributionDbContext())
-            {
-                var user = db.Employees.FirstOrDefault(e => e.Email == loginForm.Email && e.Password == loginForm.Password);
-                if (user == null)
-                {
-                    TempData["error"] = "Invalid email or password";
-                    return View(loginForm);
-                }
-                //set the session
-                Session["user"] = user;
-                Session["Role"] = "Emp";
-                Session["Name"] = user.Name;
-                return RedirectToAction("Index");
-            }
 
-        }
         [HttpPost]
         public ActionResult Setting(EmployeeSettingModel emp)
         {

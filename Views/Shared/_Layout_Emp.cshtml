@@ -27,7 +27,7 @@
             <a href="@Url.Action("History", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "History" ? "class=nav-active" : "")><i class="bi bi-clock-history w-25"></i>History</a>
 
             <a href="@Url.Action("UserProfile", "Employee")" @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "UserProfile" || ViewContext.RouteData.Values["Action"].ToString() == "Setting" ? "class=nav-active" : "")><i class="bi bi-person-lines-fill w-25"></i>Profile</a>
-            <a href="/Employee/Logout"><i class="bi bi-box-arrow-left w-25"></i>Logout</a>
+            <a href="/Home/Logout"><i class="bi bi-box-arrow-left w-25"></i>Logout</a>
         </nav>
         <section class="ds-content">
             @RenderBody()
