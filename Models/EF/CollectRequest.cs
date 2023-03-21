@@ -29,7 +29,7 @@ namespace WasteFoodDistributionSystem.Models.EF
         public string Status { get; set; }
 
         [Required]
-        public int MaximumPreservationTime { get; set; }
+        public DateTime MaximumPreservationTime { get; set; }
 
         [ForeignKey("RestaurantId")]
         public virtual Restaurant Restaurant { get; set; }

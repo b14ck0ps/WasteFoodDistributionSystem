@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Complete";
     Layout = "~/Views/Shared/_Layout_Emp.cshtml";
+
+    TimeSpan timeGap = Model.MaximumPreservationTime - DateTime.Now;
+    double timeGapInHours = timeGap.TotalHours;
 }
 
 <div>
@@ -33,7 +36,7 @@
     <hr />
     <div class="ms-5">
         <label>Perservation Time:</label>
-        <label>@Model.MaximumPreservationTime (H)</label>
+        <label>@(timeGapInHours < 0 ? "0" : timeGapInHours.ToString("0.0")) (H)</label>
     </div>
     <hr />
     <a class="link-info mt-5" href="/Employee/Index">Back</a>

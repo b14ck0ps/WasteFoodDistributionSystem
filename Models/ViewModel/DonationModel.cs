@@ -12,7 +12,7 @@ namespace WasteFoodDistributionSystem.Models.ViewModel
         public string Name { get; set; }
         public string OldImgUrl { get; set; }
         [Required]
-        public int PreservTime { get; set; }
+        public DateTime PreservTime { get; set; }
         [Required]
         public int Amount { get; set; }
         public HttpPostedFileBase FoodPicture { get; set; }
