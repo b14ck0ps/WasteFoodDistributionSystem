@@ -10,7 +10,7 @@
 
 <div>
     <img class="p-5" src="@Url.Content("~/Images/DonationFood/" + @Model.Image)" alt="food_Picture" width="300" />
-    @if (Model.Status != "Complete")
+    @if (Model.Status == "Pending")
     {
         <div>
             <a class="ms-5 btn btn-outline-primary" href="/Employee/Collect/@Model.RequestId">Collect</a>

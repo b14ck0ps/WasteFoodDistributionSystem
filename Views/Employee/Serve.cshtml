@@ -51,20 +51,22 @@
                     <th>Food Name</th>
                     <th>Amount</th>
                     <th>Resturant Name</th>
-                    <th>Preservation Hour</th>
+                    <th>Preservation Hour Left</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var req in Model)
                 {
+                    TimeSpan timeGap = req.MaximumPreservationTime - DateTime.Now;
+                    double timeGapInHours = timeGap.TotalHours;
                     <tr>
 
                         <td>#@req.RequestId</td>
-                        <td>@req.Name</td>
+                        <td><a href="/Employee/FoodDetails/@req.RequestId">@req.Name</a></td>
                         <td>@req.Amount</td>
                         <td><a href="/Employee/DonorProfile/@req.RestaurantId" class="text-decoration-none">@req.Restaurant.Name</a></td>
-                        <td>@req.MaximumPreservationTime</td>
+                        <td> @(timeGapInHours < 0 ? "0" : timeGapInHours.ToString("0.0")) H</td>
                         <td>
                             <a class="btn btn-outline-primary" href="/Employee/Complete/@req.RequestId">Distribute</a>
                         </td>
