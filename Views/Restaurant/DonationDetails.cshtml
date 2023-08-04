@@ -3,10 +3,13 @@
 @{
     ViewBag.Title = "Complete";
     Layout = "~/Views/Shared/_Layout_Dnr.cshtml";
+    var imageUrl = Model.CollectRequest.Image;
+    imageUrl = imageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? imageUrl : @Url.Content("~/Images/DonationFood/" + @Model.CollectRequest.Image);
+
 }
 
 <div>
-    <img class="p-5" src="@Url.Content("~/Images/DonationFood/" + @Model.CollectRequest.Image)" alt="food_Picture" width="300" />
+    <img class="p-5" src="@imageUrl" alt="food_Picture" width="300" />
     <hr />
     <div class="ms-5">
         <label>Name:</label>

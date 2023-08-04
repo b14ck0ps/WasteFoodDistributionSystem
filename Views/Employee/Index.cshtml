@@ -7,12 +7,16 @@
 <div class="d-flex flex-wrap">
     @foreach (var req in Model)
     {
-        TimeSpan timeGap = req.MaximumPreservationTime - DateTime.Now;
-        double timeGapInHours = timeGap.TotalHours;
+        var timeGap = req.MaximumPreservationTime - DateTime.Now;
+        var timeGapInHours = timeGap.TotalHours;
+
+        var imageUrl = @req.Image;
+        imageUrl = imageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? imageUrl : Url.Content("~/Images/DonationFood/" + imageUrl);
+
         <div>
             <div class="card dnr-card">
                 <a href="/Employee/FoodDetails/@req.RequestId">
-                    <img class="rounded" src="@Url.Content("~/Images/DonationFood/" + @req.Image)" alt="Food" width="150" />
+                    <img class="rounded" src="@imageUrl" alt="Food" width="150" />
                     <h6 class="mt-3">@req.Name</h6>
                     <p class="text-muted mb-1"><i class="bi bi-house-heart mx-2"></i>@req.Restaurant.Name</p>
                     <span class="small text-muted"><i class="bi bi-clock-history"></i>  @(timeGapInHours < 0 ? "0" : timeGapInHours.ToString("0.0")) H</span>

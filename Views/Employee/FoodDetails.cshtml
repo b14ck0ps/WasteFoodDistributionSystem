@@ -6,10 +6,14 @@
 
     TimeSpan timeGap = Model.MaximumPreservationTime - DateTime.Now;
     double timeGapInHours = timeGap.TotalHours;
+
+    var imageUrl = @Model.Image;
+    imageUrl = imageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? imageUrl : @Url.Content("~/Images/DonationFood/" + @Model.Image);
+
 }
 
 <div>
-    <img class="p-5" src="@Url.Content("~/Images/DonationFood/" + @Model.Image)" alt="food_Picture" width="300" />
+    <img class="p-5" src="@imageUrl" alt="food_Picture" width="300" />
     @if (Model.Status == "Pending")
     {
         <div>
