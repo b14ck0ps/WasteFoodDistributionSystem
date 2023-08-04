@@ -10,6 +10,21 @@ The Food Distribution System is a project designed to help an NGO collect excess
 - Tracking and reporting of food distributions
 - Database to store and manage all data in the system
 
+## Demo
+
+Restaurant log
+<img src="./docs/assets/res_reg.gif" alt="restaurant reg login">
+
+Donation request and distribution
+<img src="./docs/assets/donate_serve.gif" alt="request distribution">
+
+Employee log
+<img src="./docs/assets/emp_reg.gif" alt="employee reg login">
+
+Edit profile and Donation
+<img src="./docs/assets/crud_logout.gif" alt="edit profile and donation">
+
+
 ## Technologies
 
 - .NET Framework 4.8.1
